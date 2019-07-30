@@ -1,32 +1,4 @@
 import * as React from 'react';
-import { BrowserRouter, Link, Route } from 'react-router-dom';
-
-class App extends React.Component {
-
-    render() {
-        return (
-            <BrowserRouter>
-                <Route exact path="/" component={Home} />
-                <Route path="/recipes" component={Recipes} />
-                <Route path="/sessions" component={Sessions} />
-            </BrowserRouter>
-        );
-    }
-}
-
-class Home extends React.Component {
-    render() {
-        return (
-            <div>
-                <div className='home-buttons'>
-                    <Link to="/recipes">Recipes</Link>
-                    <Link to="/sessions">Sessions</Link>
-                </div>
-                <div className='home-content'>Home page visuals</div>   
-            </div>
-        );
-    }
-}
 
 interface IRecipeProps {
     recipeId: number
@@ -54,7 +26,7 @@ interface IRecipesState {
     recipes: number[]
 }
 
-class Recipes extends React.Component<any, IRecipesState> {
+export class Recipes extends React.Component<any, IRecipesState> {
     constructor(props: Readonly<{}>) {
         super(props)
         this.state = {recipes: [1, 2, 3, 4, 5]};
@@ -72,11 +44,3 @@ class Recipes extends React.Component<any, IRecipesState> {
         );
     }
 }
-
-class Sessions extends React.Component {
-    render() {
-        return (<span>Sessions</span>)
-    }
-}
-
-export default App;
