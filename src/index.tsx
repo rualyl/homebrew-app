@@ -11,47 +11,60 @@ import './index.css';
 
 
 
-const homeChartOptions : Options = {
-    chart : {
-        type: 'line',
-        events: {
-            load: function () {
-                var randSeries = this.series[0]
-                var startTime = (new Date()).getTime();
-                setInterval(() => {randSeries.addPoint([(new Date()).getTime() - startTime, Math.random()], true, false)}, 1000);
-            }
-        },
-        zoomType: 'x'
-    },
-    credits: {
-        enabled: false
-    },
-    title: {
-        text: 'Random Data'
-    },
-    xAxis: {
-        type: 'datetime',
-        labels: {
-            format: "{value:%H:%M:%S}"
-        }
-    },
-    series: [{
-        type: 'line',
-    } as SeriesLineOptions]
+
+
+class RandomDataChart extends HighchartsReact {
+    
 }
 
-function Home(props : any) {
-    return (
-        <div>
-            <div className='home-buttons'>
-                <Link to="/recipes">Recipes</Link>
-                <Link to="/sessions">Sessions</Link>
+class Home extends React.Component {
+    timerId: number | undefined;
+
+    chartOptions : Options = {
+        chart : {
+            type: 'line',
+            zoomType: 'x'
+        },
+        credits: {
+            enabled: false
+        },
+        title: {
+            text: 'Random Data'
+        },
+        xAxis: {
+            type: 'datetime',
+            labels: {
+                format: "{value:%H:%M:%S}"
+            }
+        },
+        series: [{
+            type: 'line',
+        } as SeriesLineOptions]
+    }
+    
+    componentDidMount() {
+        var randSeries = (this.refs.chartWrapper as HighchartsReact).chart.series[0];
+        var startTime = (new Date()).getTime();
+        this.timerId = window.setInterval(() => {randSeries.addPoint([(new Date()).getTime() - startTime, Math.random()], true, false)}, 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerId);
+    }
+
+    render() {
+        return (
+            <div>
+                <div className='home-buttons'>
+                    <Link to="/recipes">Recipes</Link>
+                    <Link to="/sessions">Sessions</Link>
+                </div>
+                <div className='home-content'>
+                    <HighchartsReact highcharts={Highcharts} options={this.chartOptions} ref="chartWrapper" />    
+                </div>   
             </div>
-            <div className='home-content'>
-                <HighchartsReact highcharts={Highcharts} options={homeChartOptions} />    
-            </div>   
-        </div>
-    );
+        );
+    }
 }
 
 ReactDOM.render((
