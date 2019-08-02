@@ -20,9 +20,6 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "references": [
-    { "path": "../homebrew-types" }
-  ],
   "include": [
     "src"
   ]
