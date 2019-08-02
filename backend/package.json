@@ -1,0 +1,31 @@
+{
+  "name": "homebrew-backend",
+  "version": "1.0.0",
+  "description": "REST service supporting homebrew-frontend",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/rualyl/homebrew-backend.git"
+  },
+  "main": "app.js",
+  "dependencies": {
+    "@types/express": "^4.17.0",
+    "@types/mongodb": "^3.1.31",
+    "@types/mongoose": "^5.5.11",
+    "@types/node": "^12.6.8",
+    "@types/uuid": "^3.4.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.7",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "typescript": "^3.5.3",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "tsc": "tsc",
+    "dev": "ts-node-dev --respawn --transpileOnly ./src/api-root.ts",
+    "prod": "tsc && node ./build/app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cameron Kelley <cameron@cameronkelley.net>",
+  "license": "ISC"
+}
