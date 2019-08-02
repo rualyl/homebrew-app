@@ -1,0 +1,14 @@
+{
+  "name": "homebrew-types",
+  "version": "1.0.0",
+  "description": "Types for data exchanged between homebrew-frontend and homebrew-backend",
+  "main": "BrewingTypes.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cameron Kelley",
+  "license": "ISC",
+  "dependencies": {
+    "typescript": "^3.5.3"
+  }
+}

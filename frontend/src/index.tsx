@@ -1,21 +1,16 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import Highcharts, { Chart, Series, ChartOptions, Options, SeriesLineOptions } from 'highcharts'
+import Highcharts, { Options, SeriesLineOptions } from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
 import { Recipes } from './Recipes'
 import { Sessions } from './Sessions'
+import { IRecipe } from 'homebrew-types/BrewingTypes'
 
 import './index.css';
 
-
-
-
-
-class RandomDataChart extends HighchartsReact {
-    
-}
+let newRecipe = {} as IRecipe;
 
 class Home extends React.Component {
     timerId: number | undefined;
