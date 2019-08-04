@@ -15,12 +15,19 @@ class Home extends React.Component {
     tempChart = React.createRef<TemperatureChart>();
 
     componentDidMount() {
+        let tempChart = this.tempChart.current;
+        if (tempChart) {
+            let i = 0;
+            for (; i<600; i++) {
+                tempChart.addSeriesPoint(1, 62 + Math.random(), i * 1000, false);
+            }
+            tempChart.addSeriesPoint(1, 62 + Math.random(), i * 1000, true);
+        }
+
         this.timerId = window.setInterval(() => {
-            let tempChart = this.tempChart.current;
             if (tempChart) {
                 let elapsedTime = new Date().getTime() - this.startTime;
-                tempChart.addSeriesPoint(0, 150 + Math.random(), elapsedTime);
-                tempChart.addSeriesPoint(1, 140 + Math.random(), elapsedTime);
+                tempChart.addSeriesPoint(0, 60 + Math.random(), elapsedTime, true);
             }
         }, 1000);
     }
@@ -37,7 +44,7 @@ class Home extends React.Component {
                     <Link to="/sessions">Sessions</Link>
                 </div>
                 <div className='home-content'>
-                    <TemperatureChart seriesNames={["A", "B"]} title="Temp Chart Component" ref={this.tempChart}/>
+                    <TemperatureChart seriesNames={["Actual", "Target"]} title="Temperature" ref={this.tempChart}/>
                 </div>   
             </div>
         );
