@@ -1,46 +1,28 @@
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import Highcharts, { Options, SeriesLineOptions } from 'highcharts'
-import HighchartsReact from 'highcharts-react-official'
 
 import { Recipes } from './Recipes'
 import { Sessions } from './Sessions'
-import { IRecipe } from 'homebrew-types/BrewingTypes'
+//import { IRecipe } from 'homebrew-types/BrewingTypes'
 
 import './index.css';
-
-let newRecipe = {} as IRecipe;
+import { TemperatureChart } from './TemperatureChart';
 
 class Home extends React.Component {
     timerId: number | undefined;
+    startTime = new Date().getTime();
+    tempChart = React.createRef<TemperatureChart>();
 
-    chartOptions : Options = {
-        chart : {
-            type: 'line',
-            zoomType: 'x'
-        },
-        credits: {
-            enabled: false
-        },
-        title: {
-            text: 'Random Data'
-        },
-        xAxis: {
-            type: 'datetime',
-            labels: {
-                format: "{value:%H:%M:%S}"
-            }
-        },
-        series: [{
-            type: 'line',
-        } as SeriesLineOptions]
-    }
-    
     componentDidMount() {
-        var randSeries = (this.refs.chartWrapper as HighchartsReact).chart.series[0];
-        var startTime = (new Date()).getTime();
-        this.timerId = window.setInterval(() => {randSeries.addPoint([(new Date()).getTime() - startTime, Math.random()], true, false)}, 1000);
+        this.timerId = window.setInterval(() => {
+            let tempChart = this.tempChart.current;
+            if (tempChart) {
+                let elapsedTime = new Date().getTime() - this.startTime;
+                tempChart.addSeriesPoint(0, 150 + Math.random(), elapsedTime);
+                tempChart.addSeriesPoint(1, 140 + Math.random(), elapsedTime);
+            }
+        }, 1000);
     }
 
     componentWillUnmount() {
@@ -55,7 +37,7 @@ class Home extends React.Component {
                     <Link to="/sessions">Sessions</Link>
                 </div>
                 <div className='home-content'>
-                    <HighchartsReact highcharts={Highcharts} options={this.chartOptions} ref="chartWrapper" />    
+                    <TemperatureChart seriesNames={["A", "B"]} title="Temp Chart Component" ref={this.tempChart}/>
                 </div>   
             </div>
         );
