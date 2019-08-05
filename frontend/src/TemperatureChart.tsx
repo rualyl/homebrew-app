@@ -4,9 +4,11 @@ import HighchartsReact from 'highcharts-react-official'
 
 export interface TemperatureChartProps {
     seriesNames: string[],
-    title: string
+    title: string,
+    pixelsPerSecond: number
 }
 
+/** The first series is always centered */
 export class TemperatureChart extends React.Component<TemperatureChartProps> {
     chartRef = React.createRef<HighchartsReact>();
 
@@ -19,7 +21,8 @@ export class TemperatureChart extends React.Component<TemperatureChartProps> {
         let chartOptions : Options = {
             chart : {
                 type: 'line',
-                zoomType: 'x'
+                //zoomType: 'x',
+                panning: true
             },
             credits: {
                 enabled: false
@@ -52,7 +55,19 @@ export class TemperatureChart extends React.Component<TemperatureChartProps> {
     addSeriesPoint(seriesIndex: number, temperature: number, elapsedTime: number, redraw : boolean) {
         let chart = this.chartRef.current;
         if (chart) {
-            chart.chart.series[seriesIndex].addPoint([elapsedTime, temperature], redraw, false);
+            chart.chart.series[seriesIndex].addPoint([elapsedTime, temperature], false, false);
+
+            // if seriesIndex is 0, update chart extremes so new point is centered
+            if (seriesIndex == 0) {
+                let millsecondsToPlotEdge = ((chart.chart.plotWidth / 2) / this.props.pixelsPerSecond) * 1000;
+                let leftElapsedTime = elapsedTime - millsecondsToPlotEdge;
+                let rightElapsedTime = elapsedTime + millsecondsToPlotEdge;
+                chart.chart.xAxis[0].setExtremes(leftElapsedTime, rightElapsedTime, false)
+            }
+
+            if (redraw) {
+                chart.chart.redraw();
+            }
         }
     }
 }

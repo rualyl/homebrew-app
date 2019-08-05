@@ -37,14 +37,31 @@ class Home extends React.Component {
     }
 
     render() {
+        let fermentingList = Array.from({length:2}, (v, k) => <li><span>Work in progress #{k}</span></li>);
+        let onTapList = Array.from({length:4}, (v, k) => <li><span>Work in progress #{k}</span></li>);
+
         return (
             <div>
                 <div className='home-buttons'>
                     <Link to="/recipes">Recipes</Link>
-                    <Link to="/sessions">Sessions</Link>
+                    <Link to="/sessions">Brew Sessions</Link>
+                    <Link to="/fermentations">Fermentations</Link>
                 </div>
                 <div className='home-content'>
-                    <TemperatureChart seriesNames={["Actual", "Target"]} title="Temperature" ref={this.tempChart}/>
+                    <div className='fermenting'>
+                        <h2>Currently Fermenting</h2>
+                        <ul className='fermentingList'>
+                            {fermentingList}
+                        </ul>
+                    </div>
+                    <div className='onTap'>
+                        <h2>Currently On Tap</h2>
+                        <ul className='onTapList'>
+                            {onTapList}
+                        </ul>
+                    </div>
+                    
+                    {/*<TemperatureChart seriesNames={["Actual", "Target"]} title="Temperature" pixelsPerSecond={50} ref={this.tempChart}/>*/}
                 </div>   
             </div>
         );
@@ -56,5 +73,6 @@ ReactDOM.render((
         <Route exact path="/" component={Home} />
         <Route path="/recipes" component={Recipes} />
         <Route path="/sessions" component={Sessions} />
+        <Route path="/fermentations" component={() => <span>Work in progress</span>} />
     </BrowserRouter>
 ), document.getElementById('root'));
