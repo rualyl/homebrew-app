@@ -1,0 +1,194 @@
+Working through each state think of equipment considering the impact to manual labor, complexity, or time to clean
+
+Additional Equipment Needed:
+		false bottom
+		tri-clamp outlet
+		tri-clamp inlet
+		temperature sensor inline to heat exchanger inlet
+		temperature sensor inline to heat exchanger outlet
+		pH Sample Cup
+		electronically controlled mash pump outlet valve
+		pressure sensors to determine differential pressure:
+			electronic pressure sensor under false bottom
+			electronic pressure sensor above grain bed
+
+Equipment:
+	Water filtration system
+
+	Water vessel
+		Collect all water for brew day ahead of time in single vessel. This avoids needing separate float switches for
+		the HLT and MLT, and if brewing is postponed from collection time, the water is in a more sanitary vessel.
+
+	HLT with tri clover inlet and outlet	
+	
+	MLT
+		tri clover inlet
+		tri clover outlet
+		tri clover port under false bottom
+			Seperate port from outlet port
+			90 degree coupler to sight gauge/pressure sensor
+				By having pressure sensor under false bottom we can measure differential pressure during sparging to prevent
+				compacting the grain bed. By having path to atmospheric pressure not through grain bed, we can *hopefully*
+				prevent grain bed compaction during wort recirculation without needing stirring.
+	
+	Kettle with tri clover inlet and outlet
+
+State: Water Collection
+	Steps:
+		Connect filtered water outlet to water vessel inlet
+		Turn on filtered water outlet valve
+	Condition to Advance:
+	Next State:
+		Grist Preparation
+		
+State: Grist Preparation
+	Steps:
+		Weigh out unmilled grain
+		Run grain through mill, collecting in bucket
+	Condition to Advance:
+	Next State:
+		Wait for Water Collection to Finish
+		
+State: Wait for Water Collection to Finish
+	Steps:
+	Condition to Advance:
+		Volume achieved and float switch shuts off flow
+	Next State:
+		MLT Water Collection
+	
+State: MLT Water Collection
+	Steps:
+		Turn off filtered water outlet valve
+		Disconnect filtered water outlet from water vessel inlet
+		Connect water vessel outlet to MLT inlet
+		Turn on water vessel outlet valve
+	Condition to Advance:
+		MLT water volume achieved
+	Next State:
+		HLT Water Collection
+
+State: HLT Water Collection
+	Steps:
+		Turn off water vessel outlet valve
+		Connect water vessel outlet to HLT inlet
+		Turn on water vessel outlet valve
+	Condition to Advance:
+		HLT water volume achieved
+	Next State:
+		HLT Water Prep
+		
+State: HLT Water Prep
+	Steps:
+		Turn off water vessel outlet valve
+		Disconnect water vessel outlet from HLT inlet
+		Connect HLT outlet to HLT pump inlet
+		Connect HLT pump outlet to heat exchanger hot water inlet
+		Connect heat exchanger hot water outlet to HLT inlet
+		Start hot water recirculation
+		Configure HLT Temp Profile with strike water profile
+		Add hlt water correction
+	Condition to Advance:
+	Next State:
+		MLT Water Prep
+		
+State: MLT Water Prep
+	Steps:
+		Connect MLT outlet to Wort pump inlet
+		Connect Wort pump outlet to heat exchanger wort inlet
+		Connect heat exchanger wort outlet to MLT inlet
+		Start wort (strike-water) recirculation
+		Add strike-water correction
+	Condition to Advance:
+		strike-water recirculating at strike temp
+	Next State:
+		Dough-In
+
+State: Dough-In
+	Steps:
+		Open atmospheric pressure valve
+		Pour milled grain into mash tun in small increments, stirring between
+		Configure HLT Temp Profile with sacharification profile
+	Condition to Advance:
+		Mash temp profile set and wort is recirculating
+	Next State:
+		Saccharification Rest
+	
+State: Saccharification Rest
+	Steps:
+		Take pH measurement
+		Monitor for appropriate temperature and continuous flow
+	Condition to Advance:
+		Time has passed or iodine test shows no starch remaining
+	Next State:
+		Saccharification Rest or Mashout
+
+State: Mashout
+	Steps:
+		Configure HLT Temp Profile with Mashout profile
+		Add sparge water correction
+		Monitor for appropriate temperature and continuous flow
+	Condition to Advance:
+		wort temp at mashout value (170F) for enough time
+	Next State:
+		Vorlauf	
+	
+State: Vorlauf
+	Steps:
+		Close atmospheric pressure valve
+		Lower wort recirculation flow rate to set grain bed and clarify wort
+		Monitor for continuous flow
+	Condition to Advance:
+		Wort clarity level achieved (or time passed)
+	Next State:
+		First Runnings
+	
+State: First Runnings
+	Steps:
+		Stop mash recirculation
+		Stop HLT recirculation
+		Connect heat exchanger wort outlet to kettle inlet
+		Connect hlt pump outlet to MLT inlet
+		Start mash pump with low flow rate (keep grain bed set while transferring wort to kettle)
+	Condition to Advance:
+		Wort level above grain bed reaches setpoint
+	Next State:
+		Fly Sparging
+
+State: Fly Sparging
+	Initial State:
+		Wort flowing to kettle at low flow rate and MLT volume hitting setpoint
+	Actions During Stage:
+		Start hlt pump with same flow rate as wort pump
+		Adjust wort flow rate based on differential pressure
+	Condition to Transition to Next Stage:
+		Kettle pre-boil targets hit, kettle volume at limit, or runnings gravity <= 1.010
+
+State: Prepare Boil Plumbing
+	Initial State:
+		Wort flowing into kettle, sparge water flowing into MLT
+	Actions During Stage:
+		Stop wort pump
+		Stop HLT pump
+		Connect kettle outlet to wort pump inlet
+		Connect heat exchanger wort outlet to kettle inlet
+	Condition to Transition to Next Stage:
+		Actions completed
+		
+State: Boil
+	Initial State:
+		Plumbing ready and wort ready to boil
+	Actions During Stage:
+		Control heat to maintain desired boil vigor
+		Add hops as per schedule
+		15 minutes before end of boil start wort pump and set to low flow rate (sterilize plumbing)
+	Condition to Transition to Next Stage:
+		Target Wort Volume Reached
+		
+State: Prepare Wort Chiller Plumbing
+	Initial State:
+	Actions During Stage:
+		Connect chilling liquid source to HLT pump inlet
+		Connect HLT pump inlet to heat exchanger chilling liquid inlet
+		Connect heat exchanger chilling liquid outlet to water reservoir
+	Condition to Transition to Next Stage:
+		Actions completed
