@@ -69,11 +69,11 @@ export interface IRecipe {
     postBoilGravity: SpecificGravity;
     fermenterVolume: VolumeInLiters;
     yeast: string;
+    fermentationTemperatureSeries: TemperatureSeriesPoint[];
     dryHopAdditions: HopAddition[];
     sessions: ISession[];
 }
 
-/*
 export const EmptyRecipe : IRecipe = {
     created: new Date(0),
     name: 'EmptyRecipe',
@@ -108,10 +108,10 @@ export const EmptyRecipe : IRecipe = {
     postBoilGravity: 0,
     fermenterVolume: 0,
     yeast: '',
+    fermentationTemperatureSeries: [],
     dryHopAdditions: [],
     sessions: []
 };
-*/
 
 export interface ISession {
     brewedOn: Date;
@@ -123,7 +123,7 @@ export interface ISession {
 
     /**
      * Details specific to this session. A "perfect" session would be one where the
-     * sessionDetails member equals the recip member exactly.
+     * sessionDetails member equals the recipe member exactly.
      */
     sessionDetails: IRecipe;
 }

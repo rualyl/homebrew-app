@@ -52,15 +52,13 @@ code {
   margin-bottom: 10px;
 }
 
-.fermentingList {
-  list-style-type: none;
-  padding: 0px;
-}
-
-.fermentingList > li {
+.fermentation {
   display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  margin: 0px 5px 0px 5px;
+  padding: 3px;
+  width: 300px;
 }
 
 .onTap {

@@ -8,10 +8,6 @@ interface IRecipeProps {
 }
 
 class Recipe extends React.Component<IRecipeProps> {
-    constructor(props: IRecipeProps) {
-        super(props);
-    }
-
     render() {
         let recipeInstance = {
             name: 'abc',
@@ -28,7 +24,7 @@ class Recipe extends React.Component<IRecipeProps> {
                 <ul className="recipe-details">
                     <li>
                         <span>Name:</span>
-                        <span>{recipeInstance.name}</span>
+                        <span>{(recipeInstance as unknown as IRecipe).name}</span>
                     </li>
                     <li>
                         <span>Volume:</span>

@@ -4,6 +4,7 @@
   "description": "Types for data exchanged between homebrew-frontend and homebrew-backend",
   "main": "BrewingTypes.js",
   "scripts": {
+    "tsc": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Cameron Kelley",

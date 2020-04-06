@@ -4,7 +4,7 @@ import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 import { Recipes } from './Recipes'
 import { Sessions } from './Sessions'
-//import { IRecipe } from 'homebrew-types/BrewingTypes'
+import { Fermentations, ActiveFermentations } from './Fermentations'
 
 import './index.css';
 import { TemperatureChart } from './TemperatureChart';
@@ -49,10 +49,7 @@ class Home extends React.Component {
                 </div>
                 <div className='home-content'>
                     <div className='fermenting'>
-                        <h2>Currently Fermenting</h2>
-                        <ul className='fermentingList'>
-                            {fermentingList}
-                        </ul>
+                        <ActiveFermentations />
                     </div>
                     <div className='onTap'>
                         <h2>Currently On Tap</h2>
@@ -73,6 +70,6 @@ ReactDOM.render((
         <Route exact path="/" component={Home} />
         <Route path="/recipes" component={Recipes} />
         <Route path="/sessions" component={Sessions} />
-        <Route path="/fermentations" component={() => <span>Work in progress</span>} />
+        <Route path="/fermentations" component={Fermentations} />
     </BrowserRouter>
 ), document.getElementById('root'));
