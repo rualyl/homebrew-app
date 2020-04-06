@@ -33,13 +33,22 @@ Equipment:
 	
 	Kettle with tri clover inlet and outlet
 
-State: Water Collection
+State: Water Collection v1
 	Steps:
 		Connect filtered water outlet to water vessel inlet
 		Turn on filtered water outlet valve
 	Condition to Advance:
 	Next State:
 		Grist Preparation
+        
+State: Water Collection v2
+    Steps:
+        Attach float switches to HLT and MLT
+        Connect filtered water outlet to HLT and MLT inlets
+        Turn on filtered water outlet valve
+    Condition to Advance:
+    Next State:
+        Grist Preparation v2
 		
 State: Grist Preparation
 	Steps:
