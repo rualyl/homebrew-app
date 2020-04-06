@@ -1,9 +1,10 @@
 import * as React from 'react';
-import Highcharts, { Options } from 'highcharts'
+import Highcharts, { Options, SeriesLineOptions } from 'highcharts'
 import HighchartsReact from 'highcharts-react-official'
 
 export interface TemperatureChartProps {
     seriesNames: string[],
+    seriesData?: Array<Array<[number, number]>>,
     title: string,
     pixelsPerSecond: number
 }
@@ -44,7 +45,17 @@ export class TemperatureChart extends React.Component<TemperatureChartProps> {
                     text: '\u2103'
                 }
             },
-            series: this.props.seriesNames.map(x => {return {type: 'line', name: x}})
+            series: this.props.seriesNames.map((seriesName, seriesIndex) => {
+                let dataForIndex : Array<[number, number]> = []
+                if (this.props.seriesData && this.props.seriesData[seriesIndex]) {
+                    dataForIndex = this.props.seriesData[seriesIndex];
+                }
+                return {
+                    type: 'line',
+                    name: seriesName,
+                    data: dataForIndex
+                } as SeriesLineOptions
+            })
         };
 
         return (
@@ -58,7 +69,7 @@ export class TemperatureChart extends React.Component<TemperatureChartProps> {
             chart.chart.series[seriesIndex].addPoint([elapsedTime, temperature], false, false);
 
             // if seriesIndex is 0, update chart extremes so new point is centered
-            if (seriesIndex == 0) {
+            if (seriesIndex === 0) {
                 let millsecondsToPlotEdge = ((chart.chart.plotWidth / 2) / this.props.pixelsPerSecond) * 1000;
                 let leftElapsedTime = elapsedTime - millsecondsToPlotEdge;
                 let rightElapsedTime = elapsedTime + millsecondsToPlotEdge;
