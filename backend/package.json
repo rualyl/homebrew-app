@@ -13,7 +13,7 @@
     "@types/mongoose": "^5.5.11",
     "@types/node": "^12.6.8",
     "@types/uuid": "^3.4.5",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "homebrew-types": "file:../types",
     "mongoose": "^5.7.5",
     "ts-node-dev": "^1.0.0-pre.40",
